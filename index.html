@@ -1,0 +1,217 @@
+<script>
+
+// ================= DATA =================
+
+const concepts = {
+  "chemical bonding": [
+    "VSEPR Theory",
+    "Hybridization",
+    "Molecular Orbital Theory",
+    "Bond Polarity"
+  ],
+  "thermodynamics": [
+    "First Law",
+    "Entropy",
+    "Gibbs Free Energy"
+  ]
+};
+
+const questionBank = {
+  "chemical bonding": [
+    {
+      type: "mcq",
+      q: "Hybridization of CH4?",
+      options: ["sp", "sp2", "sp3", "dsp2"],
+      answer: "sp3"
+    },
+    {
+      type: "mcq",
+      q: "Which is polar?",
+      options: ["CO2", "H2O", "BF3", "CH4"],
+      answer: "H2O"
+    }
+  ],
+
+  "thermodynamics": [
+    {
+      type: "num",
+      q: "pH of neutral solution?",
+      answer: "7"
+    }
+  ]
+};
+
+// ================= GLOBAL =================
+
+let score = 0;
+let timeLeft = 60;
+let timer = null;
+let currentQuestions = [];
+
+// ================= CORE =================
+
+function startRevision() {
+  const chapterInput = document.getElementById("chapter").value.toLowerCase().trim();
+
+  if (!chapterInput) return alert("Enter chapter");
+
+  const list = concepts[chapterInput] || ["Concepts will be added soon"];
+
+  document.getElementById("conceptBox").style.display = "block";
+  document.getElementById("conceptBox").innerHTML =
+    "<h2>📚 Concepts</h2><ul>" +
+    list.map(x => "<li>"+x+"</li>").join("") +
+    "</ul>";
+
+  document.getElementById("confirmBox").style.display = "block";
+  document.getElementById("confirmBox").innerHTML =
+    "<h3>Are you sure?</h3>" +
+    "<button onclick='startTest(\""+chapterInput+"\")'>Yes</button>" +
+    "<button onclick='alert(\"Revise more!\")'>No</button>";
+}
+
+// ================= TEST =================
+
+function startTest(chapter) {
+  // Stop previous timer safely
+  if (timer) clearInterval(timer);
+
+  score = 0;
+  timeLeft = 60;
+
+  const allQ = questionBank[chapter];
+
+  if (!allQ || allQ.length === 0) {
+    alert("No PYQs available for this chapter yet");
+    return;
+  }
+
+  // Slice to select a max of 10 elements safely
+  currentQuestions = shuffle(allQ).slice(0, 10);
+
+  document.getElementById("testBox").style.display = "block";
+
+  // 1. Build the HTML UI layout first
+  let html = "<h2>⚡ Test Mode</h2>";
+  html += `<p>⏱ Time Left: <span id="timer">${timeLeft}</span>s</p>`;
+
+  currentQuestions.forEach((q, i) => {
+    html += `<p><b>Q${i+1}:</b> ${q.q}</p>`;
+
+    if (q.type === "mcq") {
+      q.options.forEach(opt => {
+        html += `
+          <label>
+          <input type="radio" name="q${i}" value="${opt}">
+          ${opt}
+          </label><br>`;
+      });
+    } else {
+      html += `<input id="q${i}" placeholder="Enter number">`;
+    }
+  });
+
+  html += "<br><br><button onclick='submitTest()'>Submit</button>";
+
+  // 2. Render UI markup strictly before querying the element inside the interval
+  document.getElementById("testBox").innerHTML = html;
+
+  // 3. Now start the interval loop safely
+  timer = setInterval(() => {
+    timeLeft--;
+    const timerSpan = document.getElementById("timer");
+    if (timerSpan) {
+      timerSpan.innerText = timeLeft;
+    }
+
+    if (timeLeft <= 0) {
+      submitTest();
+    }
+  }, 1000);
+}
+
+// ================= SUBMIT =================
+
+function submitTest() {
+  clearInterval(timer);
+  score = 0;
+
+  currentQuestions.forEach((q, i) => {
+    let userAns;
+
+    if (q.type === "mcq") {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      userAns = selected ? selected.value : "";
+    } else {
+      const inputEl = document.getElementById("q"+i);
+      userAns = inputEl ? inputEl.value : "";
+    }
+
+    if (checkAnswer(userAns, q.answer)) {
+      score++;
+    }
+  });
+
+  showResult();
+}
+
+// ================= CHECK =================
+
+function checkAnswer(user, correct) {
+  if (!user) return false;
+
+  // Numeric tolerance check
+  if (!isNaN(correct) && !isNaN(user) && user.trim() !== "") {
+    return Math.abs(parseFloat(user) - parseFloat(correct)) < 0.01;
+  }
+
+  return user.toLowerCase().trim() === correct.toLowerCase().trim();
+}
+
+// ================= UTILS =================
+
+function shuffle(arr) {
+  // Use spread operator to prevent mutating original questionBank arrays
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+// ================= RESULT =================
+
+function showResult() {
+  const nameEl = document.getElementById("name");
+  const name = nameEl && nameEl.value ? nameEl.value : "Anonymous";
+
+  document.getElementById("resultBox").style.display = "block";
+  document.getElementById("resultBox").innerHTML =
+    `<h2>🏆 Score: ${score}/${currentQuestions.length}</h2>`;
+
+  saveScore(name, score);
+  showLeaderboard();
+}
+
+// ================= LEADERBOARD =================
+
+function saveScore(name, score) {
+  let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  data.push({ name, score });
+  data.sort((a,b) => b.score - a.score);
+
+  localStorage.setItem("leaderboard", JSON.stringify(data.slice(0,10)));
+}
+
+function showLeaderboard() {
+  let data = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+  document.getElementById("leaderboardBox").style.display = "block";
+
+  let html = "<h2>📊 Leaderboard</h2>";
+
+  data.forEach((d,i) => {
+    html += `<p>${i+1}. ${d.name} - ${d.score}</p>`;
+  });
+
+  document.getElementById("leaderboardBox").innerHTML = html;
+}
+
+</script>
