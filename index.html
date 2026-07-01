@@ -73,34 +73,63 @@ const concepts = {
 };
 
 const questionBank = {
-  "chemical bonding": [
-    {
-      type: "mcq",
-      q: "Hybridization of CH4?",
-      options: ["sp", "sp2", "sp3", "dsp2"],
-      answer: "sp3"
-    },
-    {
-      type: "mcq",
-      q: "Which is polar?",
-      options: ["CO2", "H2O", "BF3", "CH4"],
-      answer: "H2O"
-    }
-  ],
+  const questionBank = {
 
-  "periodic properties": [
-    {
-      type: "mcq",
-      q: "Highest ionization energy?",
-      options: ["Na", "Mg", "Cl", "Ar"],
-      answer: "Ar"
-    },
-    {
-      type: "num",
-      q: "Atomic number of Neon?",
-      answer: "10"
-    }
-  ]
+"Chemical Bonding": [
+{type:"mcq", difficulty:"easy", q:"Shape of NH3?", options:["Linear","Trigonal planar","Trigonal pyramidal","Tetrahedral"], answer:"Trigonal pyramidal"},
+{type:"mcq", difficulty:"medium", q:"Hybridization of C in CO2?", options:["sp","sp2","sp3","dsp2"], answer:"sp"},
+{type:"mcq", difficulty:"hard", q:"Which molecule has zero dipole moment?", options:["NH3","H2O","CO2","SO2"], answer:"CO2"},
+{type:"num", difficulty:"medium", q:"Number of σ bonds in ethane?", answer:"7"},
+{type:"num", difficulty:"hard", q:"Lone pairs on oxygen in H2O?", answer:"2"},
+{type:"mcq", difficulty:"medium", q:"Bond angle in methane?", options:["90°","109.5°","120°","180°"], answer:"109.5°"},
+{type:"mcq", difficulty:"hard", q:"Which follows octet rule violation?", options:["BF3","CH4","NH3","H2O"], answer:"BF3"}
+],
+
+"Thermodynamics": [
+{type:"mcq", difficulty:"easy", q:"Unit of entropy?", options:["J","J/K","Pa","KJ"], answer:"J/K"},
+{type:"mcq", difficulty:"medium", q:"ΔG < 0 implies?", options:["Non-spontaneous","Spontaneous","Equilibrium","None"], answer:"Spontaneous"},
+{type:"num", difficulty:"easy", q:"pH of neutral water?", answer:"7"},
+{type:"mcq", difficulty:"hard", q:"At equilibrium ΔG equals?", options:["1","0","-1","∞"], answer:"0"},
+{type:"mcq", difficulty:"medium", q:"Exothermic process ΔH?", options:["Positive","Negative","Zero","None"], answer:"Negative"}
+],
+
+"Equilibrium": [
+{type:"mcq", difficulty:"medium", q:"Le Chatelier principle deals with?", options:["Rate","Shift","Energy","Bond"], answer:"Shift"},
+{type:"num", difficulty:"easy", q:"pH + pOH =", answer:"14"},
+{type:"mcq", difficulty:"hard", q:"Equilibrium constant depends on?", options:["Pressure","Temp","Volume","Catalyst"], answer:"Temp"},
+{type:"mcq", difficulty:"medium", q:"Buffer resists change in?", options:["Temp","pH","Pressure","Volume"], answer:"pH"}
+],
+
+"Atomic Structure": [
+{type:"mcq", difficulty:"easy", q:"Max electrons in p-subshell?", options:["2","6","10","14"], answer:"6"},
+{type:"mcq", difficulty:"medium", q:"Quantum number for orbital shape?", options:["n","l","m","s"], answer:"l"},
+{type:"num", difficulty:"medium", q:"Orbitals in p subshell?", answer:"3"},
+{type:"mcq", difficulty:"hard", q:"Nodes in 2s orbital?", options:["0","1","2","3"], answer:"1"}
+],
+
+"Electrochemistry": [
+{type:"mcq", difficulty:"easy", q:"Unit of EMF?", options:["Volt","Amp","Ohm","Watt"], answer:"Volt"},
+{type:"mcq", difficulty:"medium", q:"Anode process?", options:["Reduction","Oxidation","Neutral","None"], answer:"Oxidation"},
+{type:"num", difficulty:"hard", q:"Faraday constant approx?", answer:"96500"},
+{type:"mcq", difficulty:"medium", q:"Cathode process?", options:["Oxidation","Reduction","None","Both"], answer:"Reduction"}
+],
+
+"Chemical Kinetics": [
+{type:"mcq", difficulty:"easy", q:"Rate increases with?", options:["Temp","Color","Mass","Shape"], answer:"Temp"},
+{type:"num", difficulty:"medium", q:"Order of zero-order reaction?", answer:"0"},
+{type:"mcq", difficulty:"hard", q:"Unit of k (first order)?", options:["s⁻¹","mol","L","None"], answer:"s⁻¹"},
+{type:"mcq", difficulty:"medium", q:"Half-life independent of concentration?", options:["Zero","First","Second","None"], answer:"First"}
+],
+
+"Organic Chemistry": [
+{type:"mcq", difficulty:"easy", q:"Functional group of alcohol?", options:["-OH","-COOH","-CHO","-NH2"], answer:"-OH"},
+{type:"mcq", difficulty:"medium", q:"Hybridization in ethene?", options:["sp","sp2","sp3","dsp2"], answer:"sp2"},
+{type:"num", difficulty:"easy", q:"Carbon atoms in propane?", answer:"3"},
+{type:"mcq", difficulty:"hard", q:"Isomerism means?", options:["Same formula diff structure","Same structure","Same mass","None"], answer:"Same formula diff structure"}
+]
+
+};
+
 };
 
 // ================= GLOBAL =================
