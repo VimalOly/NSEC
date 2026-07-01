@@ -1,4 +1,44 @@
+function start() {
+
+  const chapter = document.getElementById("chapter").value.toLowerCase().trim();
+
+  if (!chapter) return alert("Enter chapter");
+
+  document.getElementById("conceptBox").style.display = "block";
+  document.getElementById("conceptBox").innerHTML = showConcepts(chapter);
+
+  document.getElementById("confirmBox").style.display = "block";
+  document.getElementById("confirmBox").innerHTML =
+    `<h3>Are you sure?</h3>
+     <button onclick="startTest('${chapter}')">Yes</button>
+     <button onclick="alert('Revise more!')">No</button>`;
+}
+
 <script src="concepts.js"></script>
+
+function showConcepts(chapter) {
+
+  const data = conceptBank[chapter];
+
+  if (!data) {
+    return "<p>Concepts coming soon</p>";
+  }
+
+  let html = "<h2>📚 Core Concepts</h2>";
+
+  data.forEach(c => {
+    html += `
+      <div style="text-align:left; margin-bottom:15px;">
+        <b>🔹 ${c.title}</b><br>
+        <small>${c.explain}</small><br>
+        <i style="color:#38bdf8;">💡 ${c.tip}</i>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
 <script src="questions.js"></script>
 <!DOCTYPE html>
 <html lang="en">
